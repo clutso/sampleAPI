@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+  api:
+    container_name: sampleapi
+    image: clutso/sampleapi
+    ports:
+      - "80:80"
+    environment:
+        - INFLUX_DB=influxdb
+        - INFLUX_ORG=pLunaOrg
+        - INFLUX_BUCKET=pLunaBucket
+        - INFLUX_TOKEN=IQyrPlPpb8EZo4ktGmSkUvKUv9vChzzkXrkfwLjFIAODypDjyGhAemoqddgyTqng9utVFH8tsE0SPRo7yCm9xw==
+    depends_on: 
+        influxdb:
+          condition: service_healthy
+          condition: service_started
+    #command: ["python", "populateDB.py"]
+  influxdb:
+    container_name: influxdb
+    image: influxdb:latest
+    volumes:
+      # Mount for persistent influxdb data directory and configuration
+      - influxdbv2:/var/lib/docker/volumes/influxdbv2/_data
+    ports:
+      - "8086:8086"
+    environment: 
+      # Set default values to communicate with api 
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=Password1234
+      - DOCKER_INFLUXDB_INIT_ORG=pLunaOrg
+      - DOCKER_INFLUXDB_INIT_BUCKET=pLunaBucket
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=IQyrPlPpb8EZo4ktGmSkUvKUv9vChzzkXrkfwLjFIAODypDjyGhAemoqddgyTqng9utVFH8tsE0SPRo7yCm9xw==
+volumes:
+  influxdbv2:
+    #external: true
