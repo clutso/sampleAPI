@@ -14,7 +14,7 @@ This is a Generic API using Falcon-Python,  Gunicorn and influxdb. It could be r
 
 3)	Run: 
     
-        `docker-compose up -d `
+    `docker-compose up -d`
 
 4)	Wait about 5 minutes for the containers to be created configured and the data is loaded into the DB  (**NOTE** :'sampleapi'-container will output "done" when everything is ready to start)
 
